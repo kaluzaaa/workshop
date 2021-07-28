@@ -7,6 +7,9 @@ services:
     ports:
       - 8000:80
     restart: always
+    environment:
+      RedisConnectionString: redis:6379
+    env_file: .env
     networks:
       - compose_net
   redis:
