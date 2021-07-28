@@ -1,5 +1,14 @@
 version: "3.9"
-services: 
+services:
+  webapi:
+    build: ./net-core-sample
+    depends_on: 
+      - redis
+    ports:
+      - 8000:80
+    restart: always
+    networks:
+      - compose_net
   redis:
     image: redis
     restart: always
