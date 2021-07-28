@@ -1,0 +1,12 @@
+version: "3.9"
+services: 
+  redis:
+    image: redis
+    restart: always
+    expose: 
+      - 6379
+    networks:
+      - compose_net
+networks:
+  compose_net:
+    driver: bridge
