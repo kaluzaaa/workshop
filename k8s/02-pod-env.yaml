@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+  labels:
+    name: kuard
+spec:
+  containers:
+  - name: kuard
+    image: gcr.io/kuar-demo/kuard-amd64:1
+    env:
+      - name: Demo
+        value: "Jakas wartosc"
+      - name: KUBE_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadane.name
+      - name: KUBE_POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: KUBE_NODE_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+    resources:
