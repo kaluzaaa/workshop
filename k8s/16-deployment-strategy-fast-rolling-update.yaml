@@ -14,8 +14,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: 3
+      maxUnavailable: 1
   replicas: 5
   selector:
     matchLabels:
@@ -37,7 +37,7 @@ spec:
           periodSeconds: 5
         env:
         - name: Demo
-          value: "v4"
+          value: "v5"
         - name: env_from_cm
           valueFrom:
             configMapKeyRef:
