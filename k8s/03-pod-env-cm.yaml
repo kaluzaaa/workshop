@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuard-config
+data:
+  test: "pracuj.pl"
+  test2: "pracuj.pl jest super!"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+  labels:
+    name: kuard
+spec:
+  containers:
+  - name: kuard
+    image: gcr.io/kuar-demo/kuard-amd64:1
+    env:
+      - name: env_from_cm
+        valueFrom:
+          configMapKeyRef:
+            key: test
+            name: kuard-config
+    resources: {}
