@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuard-config
+data:
+  test: "pracuj.pl"
+  test2: "pracuj.pl jest super!"
