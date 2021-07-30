@@ -1,6 +1,6 @@
 # wyswietelnie pod z ip - kubectl get pod -o wide
 # wejscie do kontenera z narzędziami - kubectl exec -it tools sh
-# sprawdzenie czy kontener hellopapp odpowiada z tools - culr <pod ip>:8080
+# sprawdzenie czy kontener hellopapp odpowiada z tools - curl <pod ip>:8080
 apiVersion: v1
 kind: Pod
 metadata:
