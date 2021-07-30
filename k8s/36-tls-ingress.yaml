@@ -1,0 +1,95 @@
+
+# kubectl create secret tls gp.kaluzny.io --key 36-cert/key.pem --cert 36-cert/certificate.pem
+# openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certificate.pem
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: azure-vote-front
+  labels:
+    name: azure-vote-front
+spec:
+  tls:
+    - hosts:
+      - "vote-kaluzny.gp.kaluzny.io"
+      secretName: gp.kaluzny.io
+  rules:
+  - host: vote-kaluzny.gp.kaluzny.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: azure-vote-front
+            port: 
+              number: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-vote-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-vote-back
+  template:
+    metadata:
+      labels:
+        app: azure-vote-back
+    spec:
+      containers:
+      - name: azure-vote-back
+        image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: azure-vote-back
+  ports:
+  - port: 6379
+    targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-vote-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-vote-front
+  template:
+    metadata:
+      labels:
+        app: azure-vote-front
+    spec:
+      containers:
+      - name: azure-vote-front
+        image: mcr.microsoft.com/azuredocs/azure-vote-front:v1
+        env:
+        - name: REDIS
+          value: "redis"
+        ports:
+        - containerPort: 80
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-front
+spec:
+  selector:
+    app: azure-vote-front
+  ports:
+  - port: 80
+    targetPort: 80
