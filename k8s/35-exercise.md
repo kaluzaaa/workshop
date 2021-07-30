@@ -15,8 +15,6 @@ spec:
       labels:
         app: azure-vote-back
     spec:
-      nodeSelector:
-        "beta.kubernetes.io/os": linux
       containers:
       - name: azure-vote-back
         image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
